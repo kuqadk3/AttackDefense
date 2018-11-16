@@ -66,5 +66,9 @@ int getc(FILE *stream) {
     return res;
 }
 
+void *malloc(size_t size) {
+    return calloc(2, size);
+}
+
 void free(void *ptr) {
 }
