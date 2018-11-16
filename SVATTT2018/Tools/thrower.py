@@ -1,61 +1,42 @@
-#!/usr/bin/env python3
-import time
-import requests
-import re, os, sys
-import threading, subprocess
+#!/usr/bin/python
 
-"""
-This is an exploit thrower for RuCTFe. The following is an outline representing an abstract view of it's functionality.
-The thower will be given the exploit path as an arugment. It will then be sent to each target within individual threads.
+import threading
+import os
 
-1. We query the shim API (GET /get_targets) for all targets
-2. Exploit path will be passed as an arguement
-3. We'll exploit each target within it's own thread
-4. For each exploit, we'll recieve the output (i.e. flag)
-5. We'll submit each flag to the shim's API (POST /submit-flag)
-"""
+exitFlag = False
+spamPayloadMode = True #change this if you want usingg specific target (I know i have double g but my OCD is screaming, dont remove it!!!!)
+spamTargetMode = False #change this if you want attack specific target
 
-# Default flask location
-HOST = "http://127.0.0.1:5000"
+#add targets = api.fetchTargets()
+payloads = os.listdir(os.getcwd() + '/payloads/') #get payloads list in /payloads/
+if spamTargetMode == False:
+	targets = [('chall.pwnable.tw', 10000), ('127.0.0.1', 9498)] #change this handy if you want attack specific target
+if spamPayloadMode == False:
+	payloads = ['exploit_01.py', 'exploit_02.py'] #change this handy if you want to use specific payloads
 
-class Thrower(threading.Thread):
-    def __init__(self, target, xpl_path):
-        threading.Thread.__init__(self)
-        self.trgt = target
-        self.payload = xpl_path
+class exploit(threading.Thread):
+	def __init__(self, ip, port, payloads):
+		threading.Thread.__init__(self)
+		self.ip = ip
+		self.port = port
+		self.payloads = payloads
 
-    def run(self):
-        p = os.popen("%s %s" % (self.payload,self.trgt))
-        submit_flag(p.read())
+	"""Need more works, write logs in json and parse it to html for better views"""
+	"""Status code : Success, Fail, Error"""
 
-def get_targets():
-    """ This function will make GET request to our flask web API at /get-targets
-    returns: list of targets"""
-    return requests.get(HOST+'/get_targets')
+	"""Throw payloads and get flag"""
+	def throw(self, ip, port, payloads):
+		result = os.system("python " + os.getcwd() + "/payloads/" + payloads + " " + str(ip) + " " + str(port)) #run payload and pass ip, port as arguments and get result
+		return result
 
-def throw(xpl_path):
-    """ This function will send each target an exploit for it's respective exploit
-    and submit the flag to the shim's API"""
-    trgts = get_targets()
-    for trgt in trgts:
-        t = Thrower(trgt, xpl_path)
-        t.start()
+	def run(self):
+		try:
+			for payload in payloads:
+				result = self.throw(self.ip, self.port, payload) #try all payload in payloads list for a given target
+		except Exception as e:
+			print e
+			print(payload + " " + ip + " failed")
+			pass
 
-def submit_flag(flags):
-    """ This function will make POST requests to our flask web API at /submit-flags """
-    requests.post(HOST+'/submit-flag', data={'flag':flags})
-    return
-
-def main(xpl_path):
-    # Check is xpl_path starts with './' or '/'; if not default to './' (relative path)
-    if not re.match('^./',xpl_path) and not re.match('^/',xpl_path) :
-        xpl_path = './' + xpl_path
-    throw(xpl_path)
-
-if __name__=="__main__":
-    if len(sys.argv) == 2:
-        main(sys.argv[1])
-    else:
-        print("Usage: thrower.py <xpl-file-path>")
-        sys.exit(2)
-
+for ip, port in targets:
+	exploit(ip, port, payloads).start()
