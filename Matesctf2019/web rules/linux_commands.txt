@@ -36,3 +36,7 @@ su
 sc
 cmd
 tail
+base64
+|
+xxd
+python
