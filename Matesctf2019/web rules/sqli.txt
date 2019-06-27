@@ -1,0 +1,13 @@
+and
+or
+union
+where
+limit
+group by
+select
+' 
+hex
+substr
+ 
+lpad
+conv
