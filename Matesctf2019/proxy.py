@@ -25,9 +25,13 @@ def forward(from_sock, to_sock):
     while buf:
         buf = from_sock.recv(1024)
         print buf
-        if filter(buf) == True:
-            print "Blocked payload : " + buf
+        filter_result = filter(buf)
+        if filter_result == True:
             to_sock.send(buf)
+        else:
+            print "Blocked payload : " + buf
+            print "Blocked by keywords : " + filter_result 
+
 
 def handle_client(from_sock, fromaddr, remote_host, remote_port, i):
     from_addr, port = fromaddr
