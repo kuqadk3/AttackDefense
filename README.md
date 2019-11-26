@@ -44,6 +44,11 @@ sudo /sbin/iptables-save
 dumpcap -b duration:60 -w dump.pcap
 ```
 
+### Tshar dump every minute
+```
+while true; do tshark -i eth0 -f "tcp or udp" -w "tshark-$(date +%F-%T).pcap"; done                                                      
+```
+
 ## WinSCP Cheat Sheet
 
 ### Automatically sync local folder with remote folder
