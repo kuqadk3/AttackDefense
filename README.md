@@ -43,3 +43,12 @@ sudo /sbin/iptables-save
 ```
 dumpcap -b duration:60 -w dump.pcap
 ```
+
+## WinSCP Cheat Sheet
+
+### Automatically sync local folder with remote folder
+
+```
+# Using for syncing tshark_dump folder
+WinSCP > Commands > Static Custom Commands > Keep Local Directory Up To Date
+```
