@@ -52,3 +52,18 @@ dumpcap -b duration:60 -w dump.pcap
 # Using for syncing tshark_dump folder
 WinSCP > Commands > Static Custom Commands > Keep Local Directory Up To Date
 ```
+
+## Wireshark Cheat Sheet
+
+### Filter base on port
+```
+# filter packet on port 1234
+tcp.port == 1234
+udp.port == 1234
+```
+
+### Filter base on string match, search through raw bytes
+
+```
+frame contains "dddd"
+```
