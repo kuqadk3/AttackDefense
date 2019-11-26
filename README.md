@@ -65,5 +65,12 @@ udp.port == 1234
 ### Filter base on string match, search through raw bytes
 
 ```
+# search for printable string
 frame contains "dddd"
+
+# search for unprintable string
+frame contains "\x01\x02\x03\x04"
+
+# search for unprintable string with NULL byte
+frame contains 01:00:02:03
 ```
