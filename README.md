@@ -36,3 +36,10 @@ sudo iptables -L
 sudo /sbin/iptables-save
 ```
 
+## Tshark & Dumpcap Cheat Sheet
+
+### Dumpcap dump every minute
+
+```
+dumpcap -b duration:60 -w dump.pcap
+```
