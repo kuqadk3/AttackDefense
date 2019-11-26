@@ -2,6 +2,12 @@
 
 ## IPTABLES Cheat Sheet
 
+### Allow SSH connection
+
+```
+iptables -I INPUT 1 -p tcp -m tcp --dport 22 -j ACCEPT
+```
+
 ### Show all rules
 
 ```
