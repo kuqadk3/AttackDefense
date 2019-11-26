@@ -74,3 +74,11 @@ frame contains "\x01\x02\x03\x04"
 # search for unprintable string with NULL byte
 frame contains 01:00:02:03
 ```
+
+### Filter packets that contains data
+
+```
+data.data
+```
+
+
