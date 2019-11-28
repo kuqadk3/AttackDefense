@@ -20,6 +20,16 @@ iptables -A INPUT -p tcp -m string --hex-string "|010203|abcd" --algo bm --dport
 ```
 iptables -A OUTPUT -p tcp -m string --algo bm --string "Hello ya" --sport 1234 -j DROP
 ```
+
+### Save all rules
+```
+iptables-save > savedrules.txt
+```
+
+### Restore rules from files
+```
+iptables-restore < savedrules.txt
+```
 ### Allow SSH connection
 
 ```
@@ -58,7 +68,7 @@ sudo /sbin/iptables-save
 dumpcap -b duration:60 -w dump.pcap
 ```
 
-### Tshar dump every minute
+### Tshark dump every minute
 ```
 while true; do tshark -i eth0 -f "tcp or udp" -w "tshark-$(date +%F-%T).pcap"; done                                                      
 ```
