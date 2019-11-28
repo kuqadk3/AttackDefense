@@ -8,6 +8,13 @@
 # filter string "ls -la" on port 1234
 iptables -A INPUT -p tcp -m string --algo bm --string "ls -la" --dport 1234 -j DROP
 ```
+
+### Match & Drop with unprintable string
+
+```
+#filter string "\x01\x02\x03abcd" on port 1234
+iptables -A INPUT -p tcp -m string --hex-string "|010203|abcd" --algo bm --dport 1234 -j DROP
+```
 ### Allow SSH connection
 
 ```
