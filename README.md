@@ -30,6 +30,8 @@ iptables -I INPUT 1 -p tcp -m tcp --dport 22 -j ACCEPT
 
 ```
 sudo iptables -L --line-numbers
+#or
+sudo iptables -L -nv --line-number
 ```
 
 ### Delete a rule with line numbers
