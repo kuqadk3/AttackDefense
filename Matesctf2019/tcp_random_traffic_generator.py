@@ -8,14 +8,15 @@ def randomString():
 	randString = ""
 	for i in range(0, random.randint(1, 60)):
 		randString += chr(random.randint(1, 255))
-	return randString
+	return "SVATTT2019{" + randString + "}"
 
 def sendFakeStuff(ip, port):
-    r = remote(ip, port)
+    #r = remote(ip, port)
     for i in range(0, random.randint(5, 100)):
-        # r = remote(ip, port)
+        r = remote(ip, port)
         r.send(randomString())
         time.sleep(random.random())
+	r.close()
     print "Successfully generated fake traffic to " + str(ip) + " on " + str(port) 
 
   
