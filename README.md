@@ -70,7 +70,12 @@ dumpcap -b duration:60 -w dump.pcap
 
 ### Tshark dump every minute
 ```
-while true; do tshark -i eth0 -f "tcp or udp" -w "tshark-$(date +%F-%T).pcap"; done                                                      
+while true; do tshark -i eth0 -f "tcp or udp" -w "tshark-$(date +%F-%T).pcap"; done                                                     
+```
+
+### Tcpdump dump every minute
+```
+tcpdump -i eth0 -G 60 -w 'log_%d-%m_%Y__%H_%M.pcap'
 ```
 
 ## WinSCP Cheat Sheet
