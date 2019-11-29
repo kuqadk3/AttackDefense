@@ -16,6 +16,11 @@ iptables -A INPUT -p tcp -m string --algo bm --string "ls -la" --dport 1234 -j D
 iptables -A INPUT -p tcp -m string --hex-string "|010203|abcd" --algo bm --dport 1234 -j DROP
 ```
 
+### Match & Drop INPUT with multiports 
+```
+iptables -A INPUT -p tcp -m string --algo bm --match multiport --string "BBBBBB" --dports 1234,2345 -j DROP
+```
+
 ### Match & Drop OUTPUT with printable string
 ```
 iptables -A OUTPUT -p tcp -m string --algo bm --string "Hello ya" --sport 1234 -j DROP
